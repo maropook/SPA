@@ -1,0 +1,26 @@
+<%= javascript_pack_tag 'api' %>
+<%= stylesheet_pack_tag 'api' %>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<div class="my-container">
+    <div class="container" id="app">
+        <div class="content">
+            <div><span class="index">タイトル</span><span>{{django.data.title}}</span></div>
+            <div class="blank"><span class="index">本文</span><span>{{django.data.body}}</span></div>
+            <div><span class="index">名前</span><span>{{django.data.author.name}}</span></div>
+            <div class="blank"><span class="index">メール</span><span>{{django.data.author.mail}}</span></div>
+            <div v-if="isActive"></div>
+            <div v-else>
+            </div>
+            <select @click="search" v-model="section">
+                <option v-for="section in sections" :value="section">{{ section }}</option>
+            </select>
+            <br>
+            <button class="btn btn-primary" type="submit" @click="active">データを取得</button>
+        </div>
+    </div>
+</div>
