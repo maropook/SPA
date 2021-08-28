@@ -375,7 +375,7 @@ $yarn add axios
 
 
 # :book: 参考URL
-* https://mebee.info/2021/03/09/post-27210/
-* https://www.webprofessional.jp/fetching-data-third-party-api-vue-axios/
-* https://qiita.com/kimihiro_n/items/86e0a9e619720e57ecd8
-* https://self-methods.com/drf-cors-headers/
+* [rails6 vue.jsでaxiosを利用する](https://mebee.info/2021/03/09/post-27210/)
+* [Vue.jsとAxiosなら驚くほど簡単に作れる！外部APIを使ったWebアプリの実例](https://www.webprofessional.jp/)fetching-data-third-party-api-vue-axios/
+* [Django REST Frameworkを使って爆速でAPIを実装する](https://qiita.com/kimihiro_n/items/86e0a9e619720e57ecd8)
+* [https://self-methods.com/drf-cors-headers/](https://self-methods.com/drf-cors-headers/)
