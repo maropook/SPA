@@ -1,11 +1,20 @@
-##railsのプロジェクトでVue.jsとAxiosを使うことで,自分で作ったAPI(djangoで作る)を使ったWebアプリを作成する
+---
+title: railsのプロジェクトでVue.jsとAxiosを使うことで,自分で作ったAPI(Django REST Frameworkを使って実装したもの)を使ったWebアプリを作成する
+tags: Python Django rest api, rails, axios, Vue.js
+author: maropook
+slide: false
+---
+
 
 https://www.webprofessional.jp/fetching-data-third-party-api-vue-axios/
 
-初めに別のプロジェクトとしてdjangoでAPIを作成する
+
+# :golf: はじめに
+## 初めに別のプロジェクトとしてdjangoでAPIを作成する
 
 https://qiita.com/kimihiro_n/items/86e0a9e619720e57ecd8
 この記事を参考にさせていただいた．上記通りに実装し，
+
 http://localhost:8000/admin/でEntrysとUsersをいくつか作っておく
 
 $python manage.py runserverでサーバを起動し，
@@ -13,47 +22,79 @@ $python manage.py runserverでサーバを起動し，
 http://localhost:8000/api/entries/
 でEntryの情報を受け取れるか,Django REST framwworkが正しく動いているかを確認する．
 
-## railsのプロジェクトを作成
+# railsのプロジェクトを作成
 
+## プロジェクトセットアップ
+
+```bash
 $rails new spa
-
 $cd spa
-
 $rails s
+```
 
+rails new より spaディレクトリにrailsプロジェクトが作成される．
+cd spaでspaディレクトリに移動
+rails sでrails サーバを起動
+https://localhost:3000でサーバが立ち上がることを確認する
+
+
+```bash
 $rails g controller top show
-#topコントローラーとビュー(show.html.erb)を作成
+```
 
+topコントローラーとビュー(show.html.erb)を作成
 
-routes.rbに以下を記載
+```routes.rb
 get "", to: "top#show"
-#ルーティングlocalhost:3000/でshow.html.erbを表示できるようにする
+```
 
-top_controller.rbに以下を記載
+とりあえずこんな形でルーティングを定義しておく.localhost:3000/をリクエストすると，topコントローラのshowアクションが呼び出されることで，show.html.erbを表示できるようにする
+
+```top_controller.rb
 def show
 end
+```
+
+先ほど実行した$rails g controller top showコマンドでshowアクションは自動で定義されるが一応のため確認．
+
+```bash
+$rails s
+```
+
+https://localhost:3000でshow.html.erbが表示されることを確認
 
 
 ## vue.js環境構築
-以下のコマンドを実行すれば、vue.jsを利用するにあたり必要なファイルを用意してくれます。
 
+
+```bash
 $bundle exec rails webpacker:install:vue
+```
 
-show.html.erbに以下を追記
+vue.jsを利用するにあたり必要なファイルを用意してくれます。
+
+
+```show.html.erb
 <%= javascript_pack_tag 'hello_vue' %>
 <%= stylesheet_pack_tag 'hello_vue' %>
+```
+show.html.erbに以下を追記
 
 
-$bundle exec rails s
-#サーバーを立ち上げる
+```bash
+$bundle exec rails webpacker:install:vue
+```
 #ブラウザでhttps://localhost:3000にアクセス
 「Hello Vue!!」と表示されていれば、環境構築は完了です。
 
+
+```bash
 $yarn add axios
+```
+
 axiosをインストール
 
-app>javascript>packs>api.jsを作成
-以下を記載
+```app/javascript/packs/api.js
 
 import Vue from 'vue/dist/vue.esm'
 import axios from 'axios';
@@ -93,9 +134,9 @@ const vm = new Vue({
 
 })
 
+```
 
-
-app>assets>stylesheets>top.scss
+```app/assets/stylesheets/top.scss
 
 
 
@@ -130,10 +171,9 @@ app>assets>stylesheets>top.scss
 
     }
 }
+````
 
-
-app>views>top>show.html.erb
-show.html.erbに以下を追記
+```app/views/top/show.html.erb
 <%= javascript_pack_tag 'api' %>
 <%= stylesheet_pack_tag 'api' %>
 
@@ -161,7 +201,7 @@ show.html.erbに以下を追記
     </div>
 </div>
 
-
+```
 
 動かない場合はdjanogoのサーバが起動しているか確認
 参考:https://mebee.info/2021/03/09/post-27210/
