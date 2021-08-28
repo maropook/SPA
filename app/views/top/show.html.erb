@@ -9,12 +9,17 @@
 <div class="my-container">
     <div class="container" id="app">
         <div class="content">
-            <div><span class="index">タイトル</span><span>{{django.data.title}}</span></div>
-            <div class="blank"><span class="index">本文</span><span>{{django.data.body}}</span></div>
-            <div><span class="index">名前</span><span>{{django.data.author.name}}</span></div>
-            <div class="blank"><span class="index">メール</span><span>{{django.data.author.mail}}</span></div>
-            <div v-if="isActive"></div>
-            <div v-else>
+            <div>
+                <span class="index">タイトル</span><span>{{django.data.title}}</span>
+            </div>
+            <div class="blank">
+                <span class="index">本文</span><span>{{django.data.body}}</span>
+            </div>
+            <div>
+                <span class="index">名前</span><span>{{django.data.author.name}}</span>
+            </div>
+            <div class="blank">
+                <span class="index">メール</span><span>{{django.data.author.mail}}</span>
             </div>
             <select @click="search" v-model="section">
                 <option v-for="section in sections" :value="section">{{ section }}</option>

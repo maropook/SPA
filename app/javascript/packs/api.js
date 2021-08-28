@@ -9,9 +9,6 @@ const vm = new Vue({
       return {
         sections:["1","2","3","4","5","6"],
         section: "1",
-        isActive: true,
-        results: [],
-        info:null,
         django:null,
         url :"http://localhost:8000/api/entries/1/?format=json",
         lead_url:"http://localhost:8000/api/entries/",
@@ -20,7 +17,6 @@ const vm = new Vue({
     },
     methods: {
       active: function () {
-          this.isActive = !this.isActive;
           this.url = this.lead_url + this.section + this.behind_url;
           axios.get(this.url)
           .then(response => {this.django = response})

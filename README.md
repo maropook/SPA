@@ -249,6 +249,10 @@ const vm = new Vue({
 
 ```
 
+
+***
+
+
 __ビューを編集__
 
 app/views/top/show.html.erb
@@ -283,6 +287,9 @@ app/views/top/show.html.erb
 
 ```
 Bootstrapを使用しています．
+
+
+***
 
 
 
@@ -330,6 +337,8 @@ app/assets/stylesheets/top.scss
 デザインは好みでお願いします
 
 
+***
+
 __動作確認__
 
 
@@ -375,7 +384,8 @@ $yarn add axios
 
 
 # :book: 参考URL
-* [rails6 vue.jsでaxiosを利用する](https://mebee.info/2021/03/09/post-27210/)
-* [Vue.jsとAxiosなら驚くほど簡単に作れる！外部APIを使ったWebアプリの実例](https://www.webprofessional.jp/fetching-data-third-party-api-vue-axios/)
+
 * [Django REST Frameworkを使って爆速でAPIを実装する](https://qiita.com/kimihiro_n/items/86e0a9e619720e57ecd8)
 * [【drf】django-cors-headersを使ってCORS設定を行う](https://self-methods.com/drf-cors-headers/)
+* [rails6 vue.jsでaxiosを利用する](https://mebee.info/2021/03/09/post-27210/)
+* [Vue.jsとAxiosなら驚くほど簡単に作れる！外部APIを使ったWebアプリの実例](https://www.webprofessional.jp/fetching-data-third-party-api-vue-axios/)
