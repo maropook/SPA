@@ -1,7 +1,16 @@
 
-# railsのプロジェクトでDRFで作ったAPIを使ったWebアプリを作成する
+# DRFで作ったAPIを使用したSPAをRailsで作成する
 
-# :golf: はじめに
+
+
+  __開発環境__
+  
+* OS: `macOS Big Sur v11.5.2`
+* Python: `Python 3.0.6`
+* Django: `3.2.5`
+* ruby:`2.6.5`
+* Rails: `6.1.4.1`
+
 
 ## :horse: Djangoのプロジェクトを作成
 
@@ -56,8 +65,6 @@ http://localhost:8000/api/entries/
 
 ### 別のプロジェクトとしてrailsでSPAを実装
 
-
-## プロジェクトセットアップ
 
 ```bash
 #spaディレクトリにrailsプロジェクトを作成
@@ -192,6 +199,7 @@ https://localhost:3000
 
 ***
 
+## APIを使用したSPAを作成する
 
 __axiosをインストール__
 
@@ -203,9 +211,65 @@ $yarn add axios
 
 
 
+__ビューを編集__
+
+app/views/top/show.html.erb
+
+```app/views/top/show.html.erb
+<%= javascript_pack_tag 'api' %>
+<%= stylesheet_pack_tag 'api' %>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<div class="my-container">
+    <div class="container" id="app">
+        <div class="content">
+            <div>
+                <span class="index">タイトル</span><span>{{django.data.title}}</span>
+            </div>
+            <div class="blank">
+                <span class="index">本文</span><span>{{django.data.body}}</span>
+            </div>
+            <div>
+                <span class="index">名前</span><span>{{django.data.author.name}}</span>
+            </div>
+            <div class="blank">
+                <span class="index">メール</span><span>{{django.data.author.mail}}</span>
+            </div>
+            <select @click="search" v-model="section">
+                <option v-for="section in sections" :value="section">{{ section }}</option>
+            </select>
+            <br>
+            <button class="btn btn-primary" type="submit" @click="active">データを取得</button>
+        </div>
+    </div>
+</div>
+
+```
+
+Bootstrapを使用しています．
+
+`<%= javascript_pack_tag 'api' %>
+<%= stylesheet_pack_tag 'api' %>`でapp/javascript/packs/api.jsを読み込んでいます．
+
+`v-model="section"`より， セレクトボックスは双方向にバインディングしています．
+
+`v-for="section in sections" :value="section"`より， sections配列に格納されている値一つ一つをvalueとして選択できるようなセレクトボックスのoptionを作っています．
+
+`@click="search"`より，クリックされた時にsearch関数が呼び出されます.
+
+同様に, ボタンは`@click="active"`より，クリックされた時にactive関数が呼び出されます.
+
+***
+
+
+
 __axiosを使用__
 
-app/javascript/packs/api.js
+app/javascript/packs/api.jsを作成
 
 ```app/javascript/packs/api.js
 
@@ -219,9 +283,6 @@ const vm = new Vue({
       return {
         sections:["1","2","3","4","5","6"],
         section: "1",
-        isActive: true,
-        results: [],
-        info:null,
         django:null,
         url :"http://localhost:8000/api/entries/1/?format=json",
         lead_url:"http://localhost:8000/api/entries/",
@@ -230,7 +291,6 @@ const vm = new Vue({
     },
     methods: {
       active: function () {
-          this.isActive = !this.isActive;
           this.url = this.lead_url + this.section + this.behind_url;
           axios.get(this.url)
           .then(response => {this.django = response})
@@ -250,47 +310,21 @@ const vm = new Vue({
 ```
 
 
-***
+「情報を取得する」 ボタンが押された時に実行されるactive関数では,セレクトボックスにセットされている取得したいEntryのid`section`を,HTTPメソッドを格納する変数`url`に埋め込み,そのHTTPメソッドでAPIと通信を行い， データを取得しています．
 
+`axios.get(this.url)`で, HTTPメソッドを実行し， APIと通信を行う．
 
-__ビューを編集__
+必要とする情報はAPIからのレスポンスの中にある.
 
-app/views/top/show.html.erb
+`.then(response => {this.django = response})`で, this.djangoにAPIからのレスポンスであるJSONデータを取得.
 
-```app/views/top/show.html.erb
-<%= javascript_pack_tag 'api' %>
-<%= stylesheet_pack_tag 'api' %>
+show.html.erbで`{{django.data.title}}` や`{{django}}`などとすることでapp.jsで宣言や取得した値を表示させることができる．
 
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+とりあえず1~6番目に作成したEntryを取得できるように`sections:["1","2","3","4","5","6"]`としました
 
-<div class="my-container">
-    <div class="container" id="app">
-        <div class="content">
-            <div><span class="index">タイトル</span><span>{{django.data.title}}</span></div>
-            <div class="blank"><span class="index">本文</span><span>{{django.data.body}}</span></div>
-            <div><span class="index">名前</span><span>{{django.data.author.name}}</span></div>
-            <div class="blank"><span class="index">メール</span><span>{{django.data.author.mail}}</span></div>
-            <div v-if="isActive"></div>
-            <div v-else>
-            </div>
-            <select @click="search" v-model="section">
-                <option v-for="section in sections" :value="section">{{ section }}</option>
-            </select>
-            <br>
-            <button class="btn btn-primary" type="submit" @click="active">データを取得</button>
-        </div>
-    </div>
-</div>
-
-```
-Bootstrapを使用しています．
-
+任意で減らしたり増やしたり，取得したいEntryのidに変えてください
 
 ***
-
 
 
 __デザインを適用__
@@ -366,10 +400,33 @@ GETしかできないが，他も実装予定
 
 
 # :octocat: ソース
-https://github.com/maropook/SPA
-今回作ったサンプルのソースを置いておきます。
+
+[djangoのプロジェクト](https://github.com/maropook/django_rest_framework)
+```bash
+
+#django_rest_frameworkディレクトリに移動
+$cd django_rest_framework
+
+#マイグレーションファイルをもとにデータベースを作成
+$python manage.py migrate
+
+#django-cors-headersをインストール
+$pip install django-cors-headers
+
+#Userを作成
+$python manage.py createsuperuser
+
+#サーバーの起動
+$python manage.py runserver
+
+```
+
+[railsのプロジェクト](https://github.com/maropook/SPA)
 
 ```bash
+#SPAディレクトリに移動
+$cd SPA
+
 #gemをインストール
 $bundle install
 
@@ -378,6 +435,10 @@ $bundle exec rails webpacker:install:vue
 
 #axiosをインストール
 $yarn add axios
+
+#サーバーの起動
+$rails s
+
 ```
 
 上記を実行してください
@@ -389,3 +450,4 @@ $yarn add axios
 * [【drf】django-cors-headersを使ってCORS設定を行う](https://self-methods.com/drf-cors-headers/)
 * [rails6 vue.jsでaxiosを利用する](https://mebee.info/2021/03/09/post-27210/)
 * [Vue.jsとAxiosなら驚くほど簡単に作れる！外部APIを使ったWebアプリの実例](https://www.webprofessional.jp/fetching-data-third-party-api-vue-axios/)
+* [axios を利用した API の使用](https://jp.vuejs.org/v2/cookbook/using-axios-to-consume-apis.html)
