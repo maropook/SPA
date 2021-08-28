@@ -6,9 +6,9 @@
 ## :horse: Djangoのプロジェクトを作成
 
 ### 別のプロジェクトとしてdjangoでAPIを実装
- 
-  
-  
+
+
+
   __API実装__
 
 [Django REST Frameworkを使って爆速でAPIを実装する](https://qiita.com/kimihiro_n/items/86e0a9e619720e57ecd8)
@@ -25,7 +25,7 @@ __動作確認__
 ```bash
 
 # 開発サーバーを起動
-$python manage.py runserver 
+$python manage.py runserver
 
 ```
 
@@ -356,10 +356,26 @@ GETしかできないが，他も実装予定
 何も表示されない場合はdjangoのサーバが起動しているか確認したり, 検証でエラーを確認
 
 
+# :octocat: ソース
+https://github.com/maropook/SPA
+今回作ったサンプルのソースを置いておきます。
+
+```bash
+#gemをインストール
+$bundle install
+
+#vueをインストール
+$bundle exec rails webpacker:install:vue
+
+#axiosをインストール
+$yarn add axios
+```
+
+上記を実行してください
+
 
 # :book: 参考URL
 * https://mebee.info/2021/03/09/post-27210/
 * https://www.webprofessional.jp/fetching-data-third-party-api-vue-axios/
 * https://qiita.com/kimihiro_n/items/86e0a9e619720e57ecd8
 * https://self-methods.com/drf-cors-headers/
-
